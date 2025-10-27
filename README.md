@@ -35,7 +35,7 @@ cd icloud-calendar-mcp
 pip install -r requirements.txt
 ```
 
-## Configuration
+## Quick Start
 
 ### 1. Generate App-Specific Password
 
@@ -44,16 +44,9 @@ pip install -r requirements.txt
 3. Generate a new password
 4. Save the 16-character password (format: `xxxx-xxxx-xxxx-xxxx`)
 
-### 2. Set Environment Variables
+### 2. Configure Your MCP Client
 
-Create a `.env` file or export variables:
-
-```bash
-ICLOUD_USERNAME="your@email.com"
-ICLOUD_PASSWORD="xxxx-xxxx-xxxx-xxxx"
-```
-
-### 3. Configure MCP Client
+Add the server to your MCP client configuration with your credentials:
 
 **Claude Desktop** (macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`):
 
@@ -72,7 +65,7 @@ ICLOUD_PASSWORD="xxxx-xxxx-xxxx-xxxx"
 }
 ```
 
-**Generic MCP Client**:
+**Other MCP Clients**:
 
 ```json
 {
@@ -89,7 +82,9 @@ ICLOUD_PASSWORD="xxxx-xxxx-xxxx-xxxx"
 }
 ```
 
-### 4. Permissions Configuration
+That's it! Restart your MCP client and you're ready to use the calendar tools.
+
+### 3. Permissions Configuration (Optional)
 
 Permissions are stored in `~/.icloud_calendar_permissions.json`:
 
@@ -256,17 +251,28 @@ icloud_set_calendar_permissions(
 
 ## Development
 
-Run the server directly for testing:
+### Running the Server Standalone
+
+For testing or development, you can run the server directly without an MCP client.
+
+**1. Create a `.env` file** (optional - only for standalone testing):
 
 ```bash
-python3 icloud_calendar_mcp.py
+ICLOUD_USERNAME="your@email.com"
+ICLOUD_PASSWORD="xxxx-xxxx-xxxx-xxxx"
 ```
 
-Interactive setup wizard:
+**2. Run the server**:
 
 ```bash
+# Start the MCP server
+python3 icloud_calendar_mcp.py
+
+# Or use the interactive setup wizard
 python3 setup.py
 ```
+
+**Note**: The `.env` file is NOT needed if you're using this server with an MCP client (Claude Desktop, etc.). Only create it for standalone development/testing.
 
 ## Contributing
 
