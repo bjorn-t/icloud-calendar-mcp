@@ -69,7 +69,7 @@ Add the server to your MCP client configuration with your credentials:
 
 ```json
 {
-  "servers": {
+  "mcpServers": {
     "icloud-calendar": {
       "command": "python3",
       "args": ["/path/to/icloud_calendar_mcp.py"],
@@ -86,7 +86,12 @@ That's it! Restart your MCP client and you're ready to use the calendar tools.
 
 ### 3. Permissions Configuration (Optional)
 
-Permissions are stored in `~/.icloud_calendar_permissions.json`:
+**Default**: All calendars start as **read-only**. No prompts on first use.
+
+To grant write permissions (create/update/delete events):
+
+1. **Find your calendar names**: Ask your LLM to run `icloud_list_calendars`
+2. **Edit permissions file**: Create/edit `~/.icloud_calendar_permissions.json`:
 
 ```json
 {
@@ -101,7 +106,9 @@ Permissions are stored in `~/.icloud_calendar_permissions.json`:
 }
 ```
 
-**Defaults**: New calendars default to read-only (`read: true, write: false`).
+3. **Restart your MCP client** to apply changes
+
+Alternatively, use the `icloud_set_calendar_permissions` tool from within your LLM.
 
 ## Available Tools
 
