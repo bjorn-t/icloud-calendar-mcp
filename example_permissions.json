@@ -1,0 +1,10 @@
+{
+    "Work": {
+      "read": true,
+      "write": true
+    },
+    "Personal": {
+      "read": true,
+      "write": false
+    }
+  }
