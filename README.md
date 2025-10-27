@@ -116,170 +116,27 @@ Permissions are stored in `~/.icloud_calendar_permissions.json`:
 | `icloud_update_event` | Update an existing event | Write |
 | `icloud_delete_event` | Delete an event (destructive) | Write |
 
-## Tool Reference
-
-### icloud_list_calendars
-
-```python
-icloud_list_calendars(
-    response_format: str = "markdown"  # "markdown" or "json"
-)
-```
-
-### icloud_get_events
-
-```python
-icloud_get_events(
-    calendar_name: str,                # Required
-    start_date: str = None,            # ISO format: YYYY-MM-DD
-    end_date: str = None,              # ISO format: YYYY-MM-DD
-    limit: int = 50,                   # Max: 250
-    response_format: str = "markdown"
-)
-```
-
-### icloud_search_events
-
-```python
-icloud_search_events(
-    query: str,                        # Required
-    start_date: str = None,
-    end_date: str = None,
-    calendar_names: list = None,       # Search specific calendars
-    limit: int = 50,
-    response_format: str = "markdown"
-)
-```
-
-### icloud_create_event
-
-```python
-icloud_create_event(
-    calendar_name: str,                # Required
-    title: str,                        # Required
-    start: str,                        # Required, ISO format
-    end: str,                          # Required, ISO format
-    description: str = None,
-    location: str = None,
-    all_day: bool = False
-)
-```
-
-### icloud_update_event
-
-```python
-icloud_update_event(
-    calendar_name: str,                # Required
-    event_uid: str,                    # Required
-    title: str = None,
-    start: str = None,                 # ISO format
-    end: str = None,                   # ISO format
-    description: str = None,
-    location: str = None
-)
-```
-
-### icloud_delete_event
-
-```python
-icloud_delete_event(
-    calendar_name: str,                # Required
-    event_uid: str                     # Required
-)
-```
-
-### icloud_set_calendar_permissions
-
-```python
-icloud_set_calendar_permissions(
-    calendar_name: str,                # Required
-    read: bool = True,
-    write: bool = False
-)
-```
-
 ## Security
 
-**Permission System**: All write operations (create/update/delete) validate permissions before execution. Permissions are stored locally in `~/.icloud_calendar_permissions.json` and persist across sessions.
+Write operations validate permissions before execution. Permissions persist in `~/.icloud_calendar_permissions.json`. Default: read-only for new calendars.
 
-**Authentication**: Uses iCloud app-specific passwords, not your main password. Credentials are stored in environment variables or MCP client configuration.
-
-**Best Practices**:
-- Start with read-only access, add write permissions selectively
-- Never commit credentials to version control
-- Use separate calendars for different permission levels
-- Regularly review permissions with `icloud_get_calendar_permissions`
-
-## Troubleshooting
-
-**Authentication Failed**
-- Verify you're using an app-specific password, not your main password
-- Check credentials in environment variables or client config
-- Generate a new app-specific password if needed
-
-**Calendar Not Found**
-- Run `icloud_list_calendars` to see available calendars
-- Check exact calendar name (case-sensitive)
-- Verify calendar exists in iCloud
-
-**Permission Denied**
-- Use `icloud_set_calendar_permissions` to grant access
-- Check `~/.icloud_calendar_permissions.json` for current settings
-
-**Connection Issues**
-- Verify internet connectivity
-- Check if iCloud services are online: https://www.apple.com/support/systemstatus/
+Uses app-specific passwords (not main iCloud password). Never commit credentials to version control.
 
 ## Technical Details
 
-**Protocol**: CalDAV (RFC 4791)
-**Server**: `https://caldav.icloud.com/`
-**Format**: iCalendar (RFC 5545)
-**Library**: `python-caldav`
-
-**Limitations**:
-- No OAuth support (iCloud doesn't support OAuth 2.0 for CalDAV)
-- No webhooks/push notifications
-- No PATCH support (full PUT required for updates)
-- Rate limiting may apply for excessive requests
-
-**Performance**:
-- Response limit: 25,000 characters (truncated if exceeded)
-- Default event limit: 50 per query (max: 250)
-- Calendar type detection results are cached
-- Pagination via `start_date`, `end_date`, `limit` parameters
+- **Protocol**: CalDAV (RFC 4791) via `python-caldav`
+- **Server**: `https://caldav.icloud.com/`
+- **Format**: iCalendar (RFC 5545)
+- **Limitations**: No OAuth, webhooks, or PATCH support. Full PUT required for updates.
+- **Performance**: 25K char response limit, 50-250 events per query, cached calendar detection
 
 ## Development
 
-### Running the Server Standalone
-
-For testing or development, you can run the server directly without an MCP client.
-
-**1. Create a `.env` file** (optional - only for standalone testing):
-
-```bash
-ICLOUD_USERNAME="your@email.com"
-ICLOUD_PASSWORD="xxxx-xxxx-xxxx-xxxx"
-```
-
-**2. Run the server**:
-
-```bash
-# Start the MCP server
-python3 icloud_calendar_mcp.py
-
-# Or use the interactive setup wizard
-python3 setup.py
-```
-
-**Note**: The `.env` file is NOT needed if you're using this server with an MCP client (Claude Desktop, etc.). Only create it for standalone development/testing.
+For standalone testing, create a `.env` file with credentials and run `python3 icloud_calendar_mcp.py` or `python3 setup.py`.
 
 ## Contributing
 
-Issues and pull requests welcome. Please:
-- Include error messages and reproduction steps for bugs
-- Specify Python version and OS
-- Follow existing code style
+Issues and PRs welcome. Include error messages, Python version, and OS for bugs.
 
 ## License
 
@@ -289,9 +146,7 @@ Copyright (c) 2025 Björn Thordebrand
 
 ## Trademark Notice
 
-iCloud, Apple Calendar, and Apple are trademarks of Apple Inc., registered in the U.S. and other countries. This project is an independent implementation using the open CalDAV standard (RFC 4791) and is not affiliated with, endorsed by, or sponsored by Apple Inc.
-
-The use of "iCloud" in this project's name is intended solely for descriptive purposes to indicate compatibility with Apple's iCloud Calendar service. No trademark infringement is intended.
+iCloud and Apple Calendar are trademarks of Apple Inc. This project uses the open CalDAV standard and is not affiliated with Apple Inc.
 
 ## Acknowledgments
 
