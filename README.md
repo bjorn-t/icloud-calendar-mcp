@@ -132,7 +132,7 @@ Uses app-specific passwords (not main iCloud password). Never commit credentials
 
 ## Development
 
-For standalone testing, create a `.env` file with credentials and run `python3 icloud_calendar_mcp.py` or `python3 setup.py`.
+For standalone testing, create a `.env` file with credentials and run `python3 icloud_calendar_mcp.py`.
 
 ## Contributing
 
