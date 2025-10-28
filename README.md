@@ -19,7 +19,10 @@ This tool uses the standard CalDAV protocol (RFC 4791) to access calendar data v
 - Automatic filtering of Reminders/Tasks calendars (VTODO)
 - JSON and Markdown output formats
 - CalDAV protocol with app-specific password authentication
-- Caching for improved performance
+- Connection pooling (30min client reuse)
+- Multi-tier caching: calendar (5min TTL), event UID (60s TTL, 1000 entries), datetime format (100 patterns)
+- Concurrent calendar operations via asyncio
+- Rate limiting (5 requests/second)
 
 ## How It Works
 
@@ -150,7 +153,9 @@ Uses app-specific passwords (not main iCloud password). Never commit credentials
 - **Server**: `https://caldav.icloud.com/`
 - **Format**: iCalendar (RFC 5545)
 - **Limitations**: No OAuth, webhooks, or PATCH support. Full PUT required for updates.
-- **Performance**: 25K char response limit, 50-250 events per query, cached calendar detection
+- **Performance**: 25K char response limit, 50-250 events per query
+- **Caching**: CalendarCache (5min TTL), EventUIDCache (60s TTL, 1000 max), client pool (30min TTL)
+- **Concurrency**: Async operations with thread pool delegation, rate limited at 5 req/sec
 
 ## Development
 
