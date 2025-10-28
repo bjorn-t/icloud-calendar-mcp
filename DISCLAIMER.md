@@ -42,11 +42,12 @@ Users of this software are responsible for:
 
 ## Data Privacy
 
-This tool:
-- Stores credentials only in environment variables or user-provided configuration files
+This tool runs **entirely locally on your machine**:
+- Stores credentials only in environment variables or user-provided configuration files on your machine
 - Does not transmit credentials or calendar data to any third parties
-- Operates entirely between the user's system and Apple's iCloud servers
+- Operates entirely between your local system and Apple's iCloud servers—no intermediary services
 - Stores permission settings locally in `~/.icloud_calendar_permissions.json`
+- Your MCP client (Claude Desktop, etc.) runs the server as a local background process under your user account
 
 ## Contact
 
