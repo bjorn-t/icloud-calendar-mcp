@@ -1,8 +1,10 @@
-# iCloud Calendar MCP Server
+# iCloud Calendar MCP Server (Local)
 
-MCP server for iCloud Calendar integration via CalDAV protocol. Enables LLMs (Claude, ChatGPT, etc.) to manage calendar events with granular per-calendar permissions.
+**Local MCP server** that runs on your machine to provide iCloud Calendar integration via CalDAV protocol. Your MCP client (Claude Desktop, etc.) automatically manages the server in the background—no manual execution needed.
 
-## ⚠️ Important Disclaimer
+Enables locally installed LLM desktop apps like Claude Desktop to manage calendar events with granular per-calendar permissions while keeping your credentials completely local.
+
+## ⚠️ Disclaimer
 
 This is an **unofficial, third-party open-source tool**. It is **not affiliated with, endorsed by, or sponsored by Apple Inc.**
 
@@ -10,12 +12,25 @@ This tool uses the standard CalDAV protocol (RFC 4791) to access calendar data v
 
 ## Features
 
+- **Runs locally on your machine** with automatic lifecycle management by your MCP client
+- **Complete privacy**: Credentials and data never leave your machine
 - Per-calendar read/write permission controls
 - List calendars, get/search/create/update/delete events
 - Automatic filtering of Reminders/Tasks calendars (VTODO)
 - JSON and Markdown output formats
 - CalDAV protocol with app-specific password authentication
 - Caching for improved performance
+
+## How It Works
+
+This is a **local MCP server** that runs entirely on your machine:
+
+1. **Configure once**: Add the server path and credentials to your MCP client config (e.g., Claude Desktop)
+2. **Automatic execution**: Your MCP client automatically starts the server process in the background when needed
+3. **Direct connection**: The server connects directly from your machine to iCloud—no third-party servers involved
+4. **Complete privacy**: Your iCloud credentials and calendar data never leave your machine
+
+**You never need to manually run the server**—just configure it and your MCP client handles everything.
 
 ## Requirements
 
@@ -44,9 +59,9 @@ pip install -r requirements.txt
 3. Generate a new password
 4. Save the 16-character password (format: `xxxx-xxxx-xxxx-xxxx`)
 
-### 2. Configure Your MCP Client
+### 2. Configure Your MCP Client (That's It!)
 
-Add the server to your MCP client configuration with your credentials:
+Add the server to your MCP client configuration with your credentials. **The client will automatically run the server in the background**—you don't need to execute anything manually.
 
 **Claude Desktop** (macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`):
 
@@ -82,7 +97,7 @@ Add the server to your MCP client configuration with your credentials:
 }
 ```
 
-That's it! Restart your MCP client and you're ready to use the calendar tools.
+**That's it!** Restart your MCP client and the server will run automatically in the background whenever needed. You're ready to use the calendar tools.
 
 ### 3. Permissions Configuration (Optional)
 
@@ -139,7 +154,14 @@ Uses app-specific passwords (not main iCloud password). Never commit credentials
 
 ## Development
 
-For standalone testing, create a `.env` file with credentials and run `python3 icloud_calendar_mcp.py`.
+**For normal usage, you don't need to run the server manually**—your MCP client does this automatically.
+
+For standalone testing and development:
+
+1. Create a `.env` file with your credentials (see `.env.example`)
+2. Run directly: `python3 icloud_calendar_mcp.py`
+
+This is only needed for debugging, testing changes, or using the server outside an MCP client.
 
 ## Contributing
 
